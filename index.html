@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  上线前要替换的内容（全文搜索「TODO」可以全部定位到）
+  ============================================================
+  1. 邮箱：现在用的是占位地址 hi@example.com，共 3 处
+     （首屏「写信给我」、关于区的链接、关于区显示的文字）
+     注意：这个域名不收邮件，访客写了会退信。
+
+  2. 社交主页：即刻 / 少数派 / GitHub 现在指向「平台首页」而不是你的主页，
+     共 5 处（首屏 2 个、关于区 3 个）。需要补上你的用户 ID。
+
+  3. 文章链接：文章区 8 条都指向 example.com。
+     ⚠️ example.com 是 IANA 保留的示例域名，**是个真实可访问的页面**，
+     不是打不开的假链接 —— 点进去会看到英文的 "Example Domain"。
+     所以换了真实链接之前，不要对外发布这个网站。
+
+  4. 部署到线上之后：把 og:image / twitter:image 换成绝对地址，
+     否则微信、X（Twitter）抓不到预览图。见下方 og 标签处的说明。
+
+  各项具体怎么改，见 README.md 的「怎么改内容」一节。
+  ============================================================
+-->
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>派大星 · 产品经理</title>
+<meta name="description" content="派大星的个人网站。产品经理，写点关于产品、决策和人的文章。" />
+<meta name="theme-color" content="#fbfaf8" />
+
+<!-- ===== 分享预览（微信 / 即刻 / X / Slack / iMessage 等会读取这些标签）=====
+     ⚠️ og:image 与 twitter:image 建议用「绝对地址」。
+     现在写的是相对路径 og-image.png，本地预览没问题，
+     但部署到线上后请改成完整地址，否则部分平台抓不到图，
+     例如： https://your-domain.com/og-image.png
+     同理，og:url 也请在部署后填上你的真实网址。 -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="派大星" />
+<meta property="og:title" content="派大星 · 产品经理" />
+<meta property="og:description" content="产品经理，写点关于产品、决策和人的文章。喜欢把复杂的事情拆成一件件小事，也喜欢反复追问「这个需求真的是用户要的吗」。" />
+<meta property="og:image" content="og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="派大星 · 产品经理 · 个人网站" />
+<meta property="og:locale" content="zh_CN" />
+<!-- <meta property="og:url" content="https://your-domain.com/" /> -->
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="派大星 · 产品经理" />
+<meta name="twitter:description" content="产品经理，写点关于产品、决策和人的文章。喜欢把复杂的事情拆成一件件小事，也喜欢反复追问「这个需求真的是用户要的吗」。" />
+<meta name="twitter:image" content="og-image.png" />
+
+<!-- 一个星星作为网站图标 -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23d94f6b' d='M12 2.5l2.94 6.2 6.81.86-5.02 4.72 1.32 6.72L12 17.72 5.95 21l1.32-6.72L2.25 9.56l6.81-.86z'/%3E%3C/svg%3E" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<!-- 这一行告诉样式表「浏览器支持 JS」，这样关闭 JS 时页面也不会出现空白 -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+<!-- 顶部阅读进度条 -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <svg class="brand-star" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.5l2.94 6.2 6.81.86-5.02 4.72 1.32 6.72L12 17.72 5.95 21l1.32-6.72L2.25 9.56l6.81-.86z"/>
+      </svg>
+      <span>派大星</span>
+    </a>
+
+    <nav class="nav" aria-label="页面导航">
+      <a href="#now">现在</a>
+      <a href="#writing">文章</a>
+      <a href="#notes">碎碎念</a>
+      <a href="#lab">小实验</a>
+      <a href="#about">关于</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换深色 / 浅色模式">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 14.2A8.2 8.2 0 019.8 4a8.4 8.4 0 106.6 11.6 8.3 8.3 0 003.6-1.4z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ 首屏 ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="status reveal">
+        <span class="status-dot" aria-hidden="true"></span>
+        现在：在打磨一个还没上线的小工具
+      </p>
+
+      <h1 class="reveal">派大星</h1>
+
+      <p class="lede reveal">
+        产品经理。喜欢把复杂的事情拆成一件件小事，
+        也喜欢反复追问「这个需求真的是用户要的吗」。
+        这里放我的文章、那些还没想清楚的想法，以及一些无用的碎碎念。
+      </p>
+
+      <div class="actions reveal">
+        <a class="btn btn-primary" href="mailto:hi@example.com">写信给我</a>
+        <!-- TODO: 换成你的即刻主页，例如 https://web.okjike.com/u/你的ID -->
+        <a class="btn" href="https://web.okjike.com/" target="_blank" rel="noopener">即刻</a>
+        <!-- TODO: 换成你的少数派主页，例如 https://sspai.com/u/你的ID -->
+        <a class="btn" href="https://sspai.com/" target="_blank" rel="noopener">少数派</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 现在 ============ -->
+  <section class="section" id="now">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">01</span>现在</h2>
+
+      <div class="kv-list">
+        <div class="kv reveal">
+          <span class="kv-key">在做</span>
+          <p class="kv-val">一个面向企业内部的效率工具，从 0 到 1，每天都在和「需求太多、时间太少」这件事斗争。</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">在学</span>
+          <p class="kv-val">SQL 和一点前端。目的是能自己把想法跑起来看一眼，而不是只能画在 Figma 里。</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">在读</span>
+          <p class="kv-val">《启示录》第三遍，以及一堆关于「人为什么会这样决定」的杂书。</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">在想</span>
+          <p class="kv-val">AI 把「做出来」的成本打到接近零之后，产品经理还剩下什么价值。</p>
+        </div>
+        <div class="kv reveal">
+          <span class="kv-key">想聊</span>
+          <p class="kv-val">B 端产品的体验、需求优先级的取舍、以及怎么把一个想法讲清楚。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 文章 ============ -->
+  <section class="section" id="writing">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">02</span>文章</h2>
+      <p class="section-desc reveal">写得不快，写得比较慢。大多是关于产品决策、协作，和一点自我怀疑。</p>
+
+      <div class="posts">
+        <!-- ============================================================
+             文章区当前是「整理中」—— 这是有意为之，不是坏了。
+
+             原因：原先下面这 8 条的 href 都指向 example.com，点进去是英文的
+             Example Domain 页面（那是 IANA 保留的示例域名，真实可访问），
+             访客会以为网站没做完。所以整块临时下线，换成一句说明。
+
+             恢复步骤：
+               1. 删掉「文章列表备份开始」和「文章列表备份结束」这两处注释标记；
+               2. 把各条 href 换成你文章的真实链接；
+               3. 删掉下面那行 <p class="posts-empty">。
+             ============================================================ -->
+
+        <p class="posts-empty">文章还在整理，写完一篇放一篇。</p>
+
+        <!-- ===== 文章列表备份开始（以下 8 条已被整块注释，不会渲染）=====
+             想加文章：把其中任意一组 <a class="post"> … </a> 复制出来，
+             改掉日期 / 标题 / 标签 / 链接即可。
+             注意：不要在本注释块内部再写注释符号，会把注释提前闭合。
+        <a class="post reveal" href="https://example.com/post-1" target="_blank" rel="noopener">
+          <time datetime="2026-08-12">2026.08</time>
+          <span class="post-body">
+            <span class="post-title">需求优先级不是排序，是取舍</span>
+            <span class="post-tag">方法论</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-2" target="_blank" rel="noopener">
+          <time datetime="2026-06-30">2026.06</time>
+          <span class="post-body">
+            <span class="post-title">我把用户访谈做废掉的三次</span>
+            <span class="post-tag">复盘</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-3" target="_blank" rel="noopener">
+          <time datetime="2026-05-18">2026.05</time>
+          <span class="post-body">
+            <span class="post-title">别急着重构：先算清楚这次改动的代价</span>
+            <span class="post-tag">决策</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-4" target="_blank" rel="noopener">
+          <time datetime="2026-03-02">2026.03</time>
+          <span class="post-body">
+            <span class="post-title">产品文档该写多细？一个来自团队的答案</span>
+            <span class="post-tag">协作</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-5" target="_blank" rel="noopener">
+          <time datetime="2026-01-21">2026.01</time>
+          <span class="post-body">
+            <span class="post-title">数据读不出人性，但能读出习惯</span>
+            <span class="post-tag">数据</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-6" target="_blank" rel="noopener">
+          <time datetime="2025-11-09">2025.11</time>
+          <span class="post-body">
+            <span class="post-title">为什么我反对「先做个 MVP 看看」</span>
+            <span class="post-tag">观点</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-7" target="_blank" rel="noopener">
+          <time datetime="2025-09-27">2025.09</time>
+          <span class="post-body">
+            <span class="post-title">我学了三个月写代码，然后放弃了</span>
+            <span class="post-tag">随笔</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="post reveal" href="https://example.com/post-8" target="_blank" rel="noopener">
+          <time datetime="2025-07-15">2025.07</time>
+          <span class="post-body">
+            <span class="post-title">一个产品经理的信息输入清单</span>
+            <span class="post-tag">效率</span>
+          </span>
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        以上 8 条为文章列表备份，整块处于注释状态。
+        恢复时：删掉本行与开头「文章列表备份开始」那一行即可。 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 碎碎念 ============ -->
+  <section class="section" id="notes">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">03</span>碎碎念</h2>
+      <p class="section-desc reveal">没长到能写成文章的话，先放在这里。</p>
+
+      <div class="notes">
+        <blockquote class="note reveal">
+          <p>好的产品决策，通常不是找到一个正确答案，而是排除掉一堆看起来都很对的答案。</p>
+          <footer>2026.09</footer>
+        </blockquote>
+
+        <blockquote class="note reveal">
+          <p>如果你说不清这个功能为谁解决了什么问题，那它大概率解决的是老板的问题。</p>
+          <footer>2026.08</footer>
+        </blockquote>
+
+        <blockquote class="note reveal">
+          <p>用户说「我想要 A」，往往只是他刚好想到了 A，而不是真的需要 A。</p>
+          <footer>2026.06</footer>
+        </blockquote>
+
+        <blockquote class="note reveal">
+          <p>慢一点做决定，快一点做验证。反过来做，通常两边都亏。</p>
+          <footer>2026.04</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小实验 ============ -->
+  <section class="section" id="lab">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">04</span>小实验</h2>
+      <p class="section-desc reveal">工作是工作，这里放点纯粹好玩的东西。</p>
+
+      <div class="lab reveal">
+        <div class="lab-main">
+          <p class="lab-badge">
+            <span class="lab-dot" aria-hidden="true"></span>
+            在线可玩
+          </p>
+
+          <h3 class="lab-title">角色扮演机器人</h3>
+
+          <p class="lab-desc">
+            我用 Dify 搭的一个角色扮演对话机器人。给它一个设定，它就用那个角色的口吻跟你说话——
+            我拿它做过访谈预演、模拟过几场不太想开口的对话，也纯粹拿它聊天解闷。
+            右下角的按钮是它，点这里也能叫出来。
+          </p>
+
+          <div class="lab-chips">
+            <span>#角色扮演</span><span>#对话</span><span>#Dify 搭建</span>
+          </div>
+
+          <div class="lab-actions">
+            <button class="btn btn-primary" id="labStart" type="button">开始对话</button>
+            <span class="lab-hint" id="labHint">或点右下角的圆形按钮</span>
+          </div>
+        </div>
+
+        <div class="lab-art" aria-hidden="true">
+          <svg viewBox="0 0 140 120" fill="none">
+            <!-- 左边：描边对话气泡 + 三个点 -->
+            <path d="M30 6h52a18 18 0 0 1 18 18v24a18 18 0 0 1-18 18H52L30 84V66a18 18 0 0 1-18-18V24A18 18 0 0 1 30 6z"
+                  fill="var(--accent)" opacity=".12"/>
+            <circle cx="34" cy="36" r="3.2" fill="currentColor" opacity=".7"/>
+            <circle cx="50" cy="36" r="3.2" fill="currentColor" opacity=".7"/>
+            <circle cx="66" cy="36" r="3.2" fill="currentColor" opacity=".7"/>
+
+            <!-- 右边：填色的角色气泡 + 一颗星星 -->
+            <path d="M74 62h45a15 15 0 0 1 15 15v12a15 15 0 0 1-15 15H96L74 112V104a15 15 0 0 1-15-15V77a15 15 0 0 1 15-15z"
+                  fill="var(--accent)" opacity=".92"/>
+            <path d="M98 72l2.7 7.3 7.8.3-6.1 4.8 2.1 7.5L98 87.6l-6.5 4.3 2.1-7.5-6.1-4.8 7.8-.3z"
+                  fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 关于 ============ -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <h2 class="section-title reveal"><span class="num">05</span>关于</h2>
+
+      <p class="about-text reveal">
+        白天在会议室里争论优先级，晚上写点东西把这些争论消化掉。
+        我不太相信「最佳实践」这四个字，更相信具体的人、具体的问题、具体的代价。
+        这个网站是我自己用 HTML 和 CSS 手写的，没有用任何框架——因为我想让它足够简单，
+        简单到我随时可以改一个字。
+      </p>
+
+      <div class="tags reveal">
+        <span>#产品设计</span><span>#B端</span><span>#效率工具</span><span>#用户研究</span><span>#还在学写代码</span>
+      </div>
+
+      <div class="likes">
+        <div class="like reveal">
+          <span class="like-key">最近喜欢</span>
+          <p class="like-val">《启示录》 · Marty Cagan</p>
+        </div>
+        <div class="like reveal">
+          <span class="like-key">一直在听</span>
+          <p class="like-val">《晚点聊》和一切讲商业史的播客</p>
+        </div>
+        <div class="like reveal">
+          <span class="like-key">每天都在用</span>
+          <p class="like-val">Obsidian · Arc · 一个很丑但很好用的表格</p>
+        </div>
+      </div>
+
+      <div class="contact reveal">
+        <!-- TODO: 改成你的邮箱（下面这行的链接地址和显示文字都要改） -->
+        <a href="mailto:hi@example.com">hi@example.com</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <!-- TODO: 换成你的即刻主页 -->
+        <a href="https://web.okjike.com/" target="_blank" rel="noopener">即刻</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <!-- TODO: 换成你的少数派主页 -->
+        <a href="https://sspai.com/" target="_blank" rel="noopener">少数派</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <!-- TODO: 换成你的 GitHub 主页，例如 https://github.com/你的用户名 -->
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© <span id="year">2026</span> 派大星 · 手写 HTML 与 CSS，没有框架</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- ============================================================
+     角色扮演机器人（Dify 嵌入）
+     换机器人 → 改下面的 token 和 embed.min.js 的 id（两处要一致）
+     ============================================================ -->
+<script>
+  window.difyChatbotConfig = {
+    token: 'NNPzpCkBnVQBomxE',
+    baseUrl: 'https://udify.app',
+    inputs: {
+      // Start 节点里的输入变量。这个机器人的变量名是 role（角色），
+      // 想从网站这边固定角色就写： role: '面试官'
+    },
+    systemVariables: {
+      // user_id: '给每个访客一个固定 ID，这样关掉再打开还能看到上次的聊天记录'
+      // conversation_id: '必须是合法 UUID'
+    },
+    userVariables: {
+      // avatar_url: '访客头像 URL'
+      // name: '访客昵称'
+    },
+  }
+</script>
+<script src="https://udify.app/embed.min.js" id="NNPzpCkBnVQBomxE" defer></script>
+</body>
+</html>
